@@ -1,73 +1,64 @@
-if input("cmd: ").lower()=='git init':
-    l=[]
-    order_li=[]
-    curr=0
-    curr_no=0
-    cmd = ''
-    while cmd!='exit':
-        cmd = input('---> ').lower()
-        if 'commit' in cmd:
-            if cmd == 'git show all commit':
-                for i in range(len(l)-1,-1,-1):
-                    for (k,v) in l[i].items():
-                        if k==curr:
-                            print('*',k,v)
+if input("cmmand: ").lower()=='git init':
+    Commit_List=[]
+    s=0
+    serial_no=0
+    git_command = ''
+    while git_command!='exit':
+        git_command = input('---> ').lower()
+        if 'commit' in git_command:
+            if git_command == 'git show all commit':
+                for i in range(len(Commit_List)-1,-1,-1):
+                    for (key,v) in Commit_List[i].items():
+                        if key==s:
+                            print('*',key,v)
                         else:
-                            print(k,v)
-            elif cmd == 'git show commit':
-                for (k,v) in l[curr-1].items():
+                            print(key,v)
+            elif git_command == 'git show commit':
+                for (key,v) in Commit_List[s-1].items():
                     print(v)
 
-            elif 'git commit' in cmd:
-                cmd_list=cmd.split('"')
+            elif 'git commit' in git_command:
+                temp_command=git_command.split('"')
                 l_dic={}
-                # if l!=
-                for i in range(len(l)-1,-1,-1):
-                    for (k,v) in l[i].items():
-                        if k==curr:
-                            # print(l)
-                            l=l[:i+1]
-                curr_no+=1
-                curr = curr_no
-                l_dic[curr_no] = cmd_list[1]
-                l.append(l_dic)
-                # print(l[curr-1][0])
-        elif 'jump' in cmd:
-            cmd_list=cmd.split()
-            for i in range(len(l)-1,-1,-1):
-                for (k,v) in l[i].items():
-                    if k==int(cmd_list[2]):
-                        l.append(l.pop(i))
-                        curr = k
-        elif 'move back' in cmd:
-            # print("curr",curr)
-            for i in range(len(l)-1,-1,-1):
-                for (k,v) in l[i].items():
-                    if k==curr:
-                        # print(i)
+                for i in range(len(Commit_List)-1,-1,-1):
+                    for (key,v) in Commit_List[i].items():
+                        if key==s:
+                            Commit_List=Commit_List[:i+1]
+                serial_no+=1
+                s = serial_no
+                l_dic[serial_no] = temp_command[1]
+                Commit_List.append(l_dic)
+        elif 'jump' in git_command:
+            temp_command=git_command.split()
+            for i in range(len(Commit_List)-1,-1,-1):
+                for (key,v) in Commit_List[i].items():
+                    if key==int(temp_command[2]):
+                        Commit_List.append(Commit_List.pop(i))
+                        s = key
+        elif 'move back' in git_command:
+            for i in range(len(Commit_List)-1,-1,-1):
+                for (key,v) in Commit_List[i].items():
+                    if key==s:
                         if i != 0:
                             mb=i-1
-                        # print(mb)
-            curr=list(l[mb].keys())[0]
-        elif 'update' in cmd:
-            cmd_list=cmd.split('"')
-            # print(curr)
-            # print(l)
-            for i in range(len(l)-1,-1,-1):
-                for (k,v) in l[i].items():
-                    if k==curr:
-                        l[i][k] = cmd_list[1]
-        elif 'delete' in cmd:
-            cmd_list=cmd.split()
-            for i in range(len(l)-1,-1,-1):
-                for (k,v) in l[i].items():
-                    if k==int(cmd_list[2]):
-                        if k==curr:
+            s=list(Commit_List[mb].keys())[0]
+        elif 'update' in git_command:
+            temp_command=git_command.split('"')
+            for i in range(len(Commit_List)-1,-1,-1):
+                for (key,v) in Commit_List[i].items():
+                    if key==s:
+                        Commit_List[i][key] = temp_command[1]
+        elif 'delete' in git_command:
+            temp_command=git_command.split()
+            for i in range(len(Commit_List)-1,-1,-1):
+                for (key,v) in Commit_List[i].items():
+                    if key==int(temp_command[2]):
+                        if key==s:
                             if i != 0:
                                 mb=i-1
                             # print(mb)
-                            curr=list(l[mb].keys())[0]
-                        l.pop(i)
+                            s=list(Commit_List[mb].keys())[0]
+                        Commit_List.pop(i)
 
 else:
     print('Error: "Wrong command"')
